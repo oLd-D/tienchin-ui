@@ -24,7 +24,7 @@ import Layout from '@/layout'
   }
  */
 
-// 公共路由
+// 公共路由, 不考虑用户角色/权限, 都是要加入相应组件的
 export const constantRoutes = [
   {
     path: '/redirect',

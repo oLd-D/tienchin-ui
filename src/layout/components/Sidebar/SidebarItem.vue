@@ -52,7 +52,7 @@ const props = defineProps({
 
 const onlyOneChild = ref({});
 
-// 只有一个需要展示的菜单
+// 只有一个需要展示的子菜单
 function hasOneShowingChild(children = [], parent) {
   if (!children) {
     children = [];
