@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
         // 加载用户基本信息
         useUserStore().getInfo().then(() => {
           isRelogin.show = false
-          //加载路由信息
+          // 加载路由信息
           usePermissionStore().generateRoutes().then(accessRoutes => {
             // 根据roles权限生成可访问的路由表
             accessRoutes.forEach(route => {

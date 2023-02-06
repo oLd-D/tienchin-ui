@@ -14,6 +14,7 @@ export function useDict(...args) {
         res.value[dictType] = dicts;
       } else {
         getDicts(dictType).then(resp => {
+          // {x, y}, res.value[x] = {a: p.b, c: p.d}, 其中 a, c 为 x 的 key,
           res.value[dictType] = resp.data.map(p => ({ label: p.dictLabel, value: p.dictValue, elTagType: p.listClass, elTagClass: p.cssClass }))
           useDictStore().setDict(dictType, res.value[dictType]);
         })
