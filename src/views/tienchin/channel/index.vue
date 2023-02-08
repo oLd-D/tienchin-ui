@@ -141,6 +141,7 @@
           <el-tooltip content="删除" placement="top" v-if="scope.row.roleId !== 1">
             <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['tienchin:channel:remove']"></el-button>
           </el-tooltip>
+        </template>
       </el-table-column>
     </el-table>
 
@@ -265,6 +266,7 @@ const data = reactive({
   queryParams: {
     pageNum: 1,
     pageSize: 10,
+    name: undefined,
     channelName: undefined,
     type: undefined,
     status: undefined
