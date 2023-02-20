@@ -225,9 +225,9 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>
-        </el-form-item>
+<!--        <el-form-item label="备注" prop="remark">-->
+<!--          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"/>-->
+<!--        </el-form-item>-->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -301,9 +301,7 @@ function getList() {
   });
 }
 
-/**
- * 查询渠道信息
- */
+/** 查询渠道信息 */
 function handleGetChannel() {
   listChannel().then(resp => {
     channelList.value = resp.data
@@ -362,8 +360,8 @@ function handleAdd() {
 function handleUpdate(row) {
   reset();
   handleGetChannel();
-  const activitiId = row.activityId || ids.value;
-  getActivity(activitiId).then(response => {
+  const activityId = row.activityId || ids.value;
+  getActivity(activityId).then(response => {
     form.value = response.data;
     form.value.activityTime = new Array();
     form.value.activityTime.push(response.data.beginTime)
