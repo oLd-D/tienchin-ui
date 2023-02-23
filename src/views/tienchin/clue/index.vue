@@ -120,7 +120,7 @@
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)"
+          <el-button link type="primary" icon="View" @click="handleUpdate(scope.row)"
                      v-hasPermi="['tienchin:clue:edit']">
             查看
           </el-button>
@@ -128,7 +128,7 @@
                      v-hasPermi="['tienchin:clue:assignment']">
             分配
           </el-button>
-          <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)"
+          <el-button link type="primary" icon="TopRight" @click="handleDelete(scope.row)"
                      v-hasPermi="['tienchin:clue:follow']">
             跟进
           </el-button>
