@@ -322,10 +322,14 @@ const data = reactive({
   rules: {
     name: [{required: true, message: "客户姓名不能为空", trigger: "blur"}],
     phone: [{required: true, message: "手机号不能为空", trigger: "blur"}],
+  },
+  assignFormRules: {
+    departmentId: [{required: true, message: "部门ID不能为空", trigger: "blur"}],
+    nickName: [{required: true, message: "用户昵称不能为空", trigger: "blur"}],
   }
 });
 
-const {queryParams, form, assignForm, rules} = toRefs(data);
+const {queryParams, form, assignForm, rules, assignFormRules} = toRefs(data);
 
 function cancelAssignClue() {
   resetAssignForm();
@@ -344,11 +348,15 @@ function resetAssignForm() {
 }
 /** 分配线索点击确定 */
 function handleAssignClue() {
-  assignClue(assignForm.value).then(resp => {
-    getList();
-    assignClueDialog.value = false
-  })
-  resetAssignForm();
+  proxy.$refs["clueAssignRef"].validate(valid => {
+    if (valid) {
+      assignClue(assignForm.value).then(response => {
+        getList();
+        assignClueDialog.value = false;
+        resetAssignForm();
+      })
+    }
+  });
 }
 
 function onAssignUserChange(data) {
