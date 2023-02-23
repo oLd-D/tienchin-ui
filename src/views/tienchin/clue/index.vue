@@ -148,9 +148,9 @@
       <el-form ref="clueAssignRef" :model="assignForm" :rules="assignFormRules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
+            <el-form-item label="归属部门" prop="departmentId">
               <el-tree-select
-                  v-model="assignForm.deptId"
+                  v-model="assignForm.departmentId"
                   :data="deptOptions"
                   :props="{ value: 'id', label: 'label', children: 'children' }"
                   value-key="id"
@@ -327,12 +327,28 @@ const data = reactive({
 
 const {queryParams, form, assignForm, rules} = toRefs(data);
 
+function cancelAssignClue() {
+  resetAssignForm();
+  assignClueDialog.value = false;
+}
+
+/**
+ * 分配线索确定或取消时重置表单
+ */
+function resetAssignForm() {
+  assignForm.value = {
+    deptId: undefined,
+    nickName: undefined
+  };
+  proxy.resetForm("clueAssignRef");
+}
 /** 分配线索点击确定 */
 function handleAssignClue() {
   assignClue(assignForm.value).then(resp => {
     getList();
     assignClueDialog.value = false
   })
+  resetAssignForm();
 }
 
 function onAssignUserChange(data) {
@@ -340,7 +356,6 @@ function onAssignUserChange(data) {
   assignForm.value.userId = data.value;
   assignForm.value.userName = data.userName;
   assignForm.value.deptId = data.deptId;
-  alert(JSON.stringify(assignForm.value))
 }
 function onDeptChange() {
   assignForm.value.nickName = undefined;
@@ -348,7 +363,7 @@ function onDeptChange() {
 }
 
 function initUsers() {
-  listUsers(assignForm.value.deptId).then(response => {
+  listUsers(assignForm.value.departmentId).then(response => {
     userList.value = response.data;
   })
 }
