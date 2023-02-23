@@ -148,13 +148,13 @@
       <el-form ref="clueAssignRef" :model="assignForm" :rules="assignFormRules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="departmentId">
+            <el-form-item label="归属部门" prop="deptId">
               <el-tree-select
                   v-model="assignForm.deptId"
                   :data="deptOptions"
                   :props="{ value: 'id', label: 'label', children: 'children' }"
                   value-key="id"
-                  @change="deptChange"
+                  @change="onDeptChange"
                   placeholder="请选择归属部门"
                   check-strictly
               />
@@ -166,7 +166,7 @@
                   v-model="assignForm.nickName"
                   placeholder="选择用户"
                   clearable
-                  @change="assignUserChange"
+                  @change="onAssignUserChange"
                   style="width: 240px"
               >
                 <el-option
@@ -280,7 +280,7 @@
 
 <script setup name="Post">
 import {getCurrentInstance} from "vue";
-import {addClue, listActivity, listChannels, listClue} from "../../../api/tienchin/clue";
+import {addClue, assignClue, listActivity, listChannels, listClue, listUsers} from "../../../api/tienchin/clue";
 import {deptTreeSelect} from "../../../api/system/user";
 
 const {proxy} = getCurrentInstance();
@@ -294,6 +294,7 @@ const {
 const clueList = ref([]);
 const channelList = ref([]);
 const activityList = ref([]);
+const userList = ref([]);
 const open = ref(false);
 const assignClueDialog = ref(false);
 const loading = ref(true);
@@ -326,7 +327,33 @@ const data = reactive({
 
 const {queryParams, form, assignForm, rules} = toRefs(data);
 
+/** 分配线索点击确定 */
+function handleAssignClue() {
+  assignClue(assignForm.value).then(resp => {
+    getList();
+    assignClueDialog.value = false
+  })
+}
+
+function onAssignUserChange(data) {
+  assignForm.value.nickName = data.nickName;
+  assignForm.value.userId = data.value;
+  assignForm.value.userName = data.userName;
+  assignForm.value.deptId = data.deptId;
+  alert(JSON.stringify(assignForm.value))
+}
+function onDeptChange() {
+  assignForm.value.nickName = undefined;
+  initUsers();
+}
+
+function initUsers() {
+  listUsers(assignForm.value.deptId).then(response => {
+    userList.value = response.data;
+  })
+}
 function handleAssign(data) {
+  assignForm.value.assignId = data.clueId;
   initDeptOptions();
   assignClueDialog.value = true;
 }

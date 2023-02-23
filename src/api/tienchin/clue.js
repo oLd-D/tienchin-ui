@@ -15,11 +15,28 @@ export function listClue() {
         method: 'get',
     })
 }
+// 查询部门下的所有用户
+export function listUsers(deptId) {
+    return request({
+        url: '/tienchin/clue/users/' + deptId,
+        method: 'get',
+    })
+}
+
 // 查询活动列表
 export function listActivity(channelId) {
     return request({
         url: '/tienchin/clue/activity/' +channelId,
         method: 'get'
+    })
+}
+
+// 分配线索
+export function assignClue(data) {
+    return request({
+        url: '/tienchin/assignment',
+        method: 'post',
+        data: data
     })
 }
 
