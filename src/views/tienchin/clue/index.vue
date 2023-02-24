@@ -120,15 +120,15 @@
 
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template #default="scope">
-          <el-button link type="primary" icon="View" @click="handleUpdate(scope.row)"
-                     v-hasPermi="['tienchin:clue:edit']">
+          <el-button link type="primary" icon="View" @click="handleClueView(scope.row)"
+                     v-hasPermi="['tienchin:clue:view']">
             查看
           </el-button>
           <el-button link type="primary" icon="Pointer" @click="handleAssign(scope.row)"
-                     v-hasPermi="['tienchin:clue:assignment']">
+                     v-hasPermi="['tienchin:clue:assign']">
             分配
           </el-button>
-          <el-button link type="primary" icon="TopRight" @click="handleDelete(scope.row)"
+          <el-button link type="primary" icon="TopRight" @click="handleClueFollow(scope.row)"
                      v-hasPermi="['tienchin:clue:follow']">
             跟进
           </el-button>
@@ -283,6 +283,7 @@ import {getCurrentInstance} from "vue";
 import {addClue, assignClue, listActivity, listChannels, listClue, listUsers} from "../../../api/tienchin/clue";
 import {deptTreeSelect} from "../../../api/system/user";
 
+const router = useRouter();
 const {proxy} = getCurrentInstance();
 const {
   clue_status,
@@ -331,6 +332,13 @@ const data = reactive({
 
 const {queryParams, form, assignForm, rules, assignFormRules} = toRefs(data);
 
+function handleClueView(data) {
+  router.push("/clue/details/index/" + data.clueId + "/view")
+}
+
+function handleClueFollow(data) {
+  router.push("/clue/details/index/" + data.clueId + "/follow")
+}
 function cancelAssignClue() {
   resetAssignForm();
   assignClueDialog.value = false;
